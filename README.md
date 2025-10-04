@@ -2,7 +2,7 @@
 
 ## 🗺️ mapa:
 <div align="center">
-    <img src="https://github.com/Otto-Samuel/Implementacao_IA/blob/main/mapadomundo.png" style="border-radius: 50%"  width="100%;" alt="Otto Samuel"/>
+    <img src="https://github.com/Otto-Samuel/Implementacao_IA/blob/main/mapadomundo.png" style="border-radius: 50%"  width="750px;" height="330px" alt="Otto Samuel"/>
 </div>
 
 <br>
