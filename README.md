@@ -1,5 +1,14 @@
 # Implementacao_IA (Sistema Delivery 🛵🛣️🏞️)
 
+## 🗺️ mapa:
+<div align="center">
+    <img src="https://github.com/Otto-Samuel/Implementacao_IA/mapadomundo.png" style="border-radius: 50%"  width="100%;" alt="Otto Samuel"/>
+</div>
+
+<br>
+
+### ⚙️ como usar:
+
 ### ⚪ integrantes:
 <table>
   <tr>
