@@ -1,9 +1,13 @@
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
-from util import custo_terreno
+from .util import custo_terreno
+import os
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D 
+
 
 dificuldade = ctrl.Antecedent(np.arange(0, 11, 1), 'dificuldade')
 distancia = ctrl.Antecedent(np.arange(0, 101, 1), 'distancia')
@@ -11,21 +15,26 @@ distancia = ctrl.Antecedent(np.arange(0, 101, 1), 'distancia')
 multiplicador_custo = ctrl.Consequent(np.arange(0.5, 3.1, 0.1), 'multiplicador_custo')
 peso_heuristica = ctrl.Consequent(np.arange(0.1, 2.1, 0.1), 'peso_heuristica')
 
+
 dificuldade['baixa'] = fuzz.trimf(dificuldade.universe, [0, 0, 4])
 dificuldade['média'] = fuzz.trimf(dificuldade.universe, [2, 5, 8])
 dificuldade['alta'] = fuzz.trimf(dificuldade.universe, [6, 10, 10])
+
 
 distancia['perto'] = fuzz.trimf(distancia.universe, [0, 0, 30])
 distancia['média'] = fuzz.trimf(distancia.universe, [15, 45, 75])
 distancia['longe'] = fuzz.trimf(distancia.universe, [50, 100, 100])
 
+
 multiplicador_custo['baixo'] = fuzz.trimf(multiplicador_custo.universe, [0.5, 0.5, 1.0])
 multiplicador_custo['médio'] = fuzz.trimf(multiplicador_custo.universe, [0.9, 1.4, 1.9])
 multiplicador_custo['alto'] = fuzz.trimf(multiplicador_custo.universe, [1.6, 2.5, 3.0])
 
+
 peso_heuristica['baixo'] = fuzz.trimf(peso_heuristica.universe, [0.1, 0.1, 0.6])
 peso_heuristica['médio'] = fuzz.trimf(peso_heuristica.universe, [0.4, 0.9, 1.4])
 peso_heuristica['alto'] = fuzz.trimf(peso_heuristica.universe, [1.0, 1.6, 2.0])
+
 
 regras = [
     ctrl.Rule(dificuldade['baixa'] & distancia['perto'], (multiplicador_custo['baixo'], peso_heuristica['médio'])),
@@ -39,8 +48,10 @@ regras = [
     ctrl.Rule(dificuldade['alta'] & distancia['longe'], (multiplicador_custo['alto'], peso_heuristica['baixo']))
 ]
 
+
 sistema_fuzzy = ctrl.ControlSystem(regras)
 simulador_fuzzy = ctrl.ControlSystemSimulation(sistema_fuzzy)
+
 
 def avaliar_celula_fuzzy(celula, dist_objetivo):
     base = custo_terreno(celula)
@@ -53,30 +64,27 @@ def avaliar_celula_fuzzy(celula, dist_objetivo):
 
 
 def plot_membership_functions(output_path_prefix="docs/fuzzy"):
-    """Salva os gráficos das funções de pertinência em arquivos PNG."""
-    plt.figure(figsize=(10,6))
-    dificuldade.view()
-    plt.title('MF - dificuldade')
-    plt.savefig(f"{output_path_prefix}_mf_dificuldade.png", bbox_inches='tight')
-    plt.close()
+    """Salva os gráficos das funções de pertinência em arquivos PNG (sem .view())."""
+    outdir = os.path.dirname(output_path_prefix) or "."
+    os.makedirs(outdir, exist_ok=True)
 
-    plt.figure(figsize=(10,6))
-    distancia.view()
-    plt.title('MF - distancia')
-    plt.savefig(f"{output_path_prefix}_mf_distancia.png", bbox_inches='tight')
-    plt.close()
+    def _plot_var(var, title, path):
+        plt.figure(figsize=(10, 6))
+        for nome, termo in var.terms.items():
+            plt.plot(var.universe, termo.mf, label=nome)
+        plt.title(title)
+        plt.xlabel(var.label)
+        plt.ylabel('grau de pertinência')
+        plt.ylim(-0.05, 1.05)
+        plt.legend(loc='best')
+        plt.grid(True, alpha=0.3)
+        plt.savefig(path, bbox_inches='tight')
+        plt.close()
 
-    plt.figure(figsize=(10,6))
-    multiplicador_custo.view()
-    plt.title('MF - multiplicador_custo')
-    plt.savefig(f"{output_path_prefix}_mf_mult.png", bbox_inches='tight')
-    plt.close()
-
-    plt.figure(figsize=(10,6))
-    peso_heuristica.view()
-    plt.title('MF - peso_heuristica')
-    plt.savefig(f"{output_path_prefix}_mf_peso.png", bbox_inches='tight')
-    plt.close()
+    _plot_var(dificuldade, 'MF - dificuldade', f"{output_path_prefix}_mf_dificuldade.png")
+    _plot_var(distancia, 'MF - distancia', f"{output_path_prefix}_mf_distancia.png")
+    _plot_var(multiplicador_custo, 'MF - multiplicador_custo', f"{output_path_prefix}_mf_mult.png")
+    _plot_var(peso_heuristica, 'MF - peso_heuristica', f"{output_path_prefix}_mf_peso.png")
 
 
 def plot_surface_3d(output_path="docs/fuzzy_surface.png", resolution=41):
@@ -93,6 +101,8 @@ def plot_surface_3d(output_path="docs/fuzzy_surface.png", resolution=41):
             simulador_fuzzy.compute()
             Z[i, j] = simulador_fuzzy.output['multiplicador_custo']
 
+    outdir = os.path.dirname(output_path) or "."
+    os.makedirs(outdir, exist_ok=True)
     fig = plt.figure(figsize=(10,7))
     ax = fig.add_subplot(111, projection='3d')
     ax.plot_surface(X, Y, Z, cmap='viridis')
