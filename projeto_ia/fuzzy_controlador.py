@@ -2,6 +2,8 @@ import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 from util import custo_terreno
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D 
 
 dificuldade = ctrl.Antecedent(np.arange(0, 11, 1), 'dificuldade')
 distancia = ctrl.Antecedent(np.arange(0, 101, 1), 'distancia')
@@ -48,3 +50,55 @@ def avaliar_celula_fuzzy(celula, dist_objetivo):
     simulador_fuzzy.input['distancia'] = dist_norm
     simulador_fuzzy.compute()
     return simulador_fuzzy.output['multiplicador_custo'], simulador_fuzzy.output['peso_heuristica']
+
+
+def plot_membership_functions(output_path_prefix="docs/fuzzy"):
+    """Salva os gráficos das funções de pertinência em arquivos PNG."""
+    plt.figure(figsize=(10,6))
+    dificuldade.view()
+    plt.title('MF - dificuldade')
+    plt.savefig(f"{output_path_prefix}_mf_dificuldade.png", bbox_inches='tight')
+    plt.close()
+
+    plt.figure(figsize=(10,6))
+    distancia.view()
+    plt.title('MF - distancia')
+    plt.savefig(f"{output_path_prefix}_mf_distancia.png", bbox_inches='tight')
+    plt.close()
+
+    plt.figure(figsize=(10,6))
+    multiplicador_custo.view()
+    plt.title('MF - multiplicador_custo')
+    plt.savefig(f"{output_path_prefix}_mf_mult.png", bbox_inches='tight')
+    plt.close()
+
+    plt.figure(figsize=(10,6))
+    peso_heuristica.view()
+    plt.title('MF - peso_heuristica')
+    plt.savefig(f"{output_path_prefix}_mf_peso.png", bbox_inches='tight')
+    plt.close()
+
+
+def plot_surface_3d(output_path="docs/fuzzy_surface.png", resolution=41):
+    """Gera superfície 3D da saída multiplicador_custo em função de dificuldade x distancia."""
+    x = np.linspace(dificuldade.universe.min(), dificuldade.universe.max(), resolution)
+    y = np.linspace(distancia.universe.min(), distancia.universe.max(), resolution)
+    X, Y = np.meshgrid(x, y)
+
+    Z = np.zeros_like(X)
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            simulador_fuzzy.input['dificuldade'] = X[i, j]
+            simulador_fuzzy.input['distancia'] = Y[i, j]
+            simulador_fuzzy.compute()
+            Z[i, j] = simulador_fuzzy.output['multiplicador_custo']
+
+    fig = plt.figure(figsize=(10,7))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot_surface(X, Y, Z, cmap='viridis')
+    ax.set_xlabel('dificuldade')
+    ax.set_ylabel('distancia')
+    ax.set_zlabel('multiplicador_custo')
+    ax.set_title('Superfície Fuzzy')
+    plt.savefig(output_path, bbox_inches='tight')
+    plt.close(fig)
