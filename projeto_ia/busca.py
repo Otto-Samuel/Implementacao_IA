@@ -2,7 +2,7 @@ import heapq
 from util import custo_terreno, heuristica_manhattan
 from fuzzy_controlador import avaliar_celula_fuzzy
 
-def vizinhos(pos, mapa):
+def vizinhos(pos, mapa, objetivo=None):
     linhas, colunas = mapa.shape
     x, y = pos
     direcoes = [(0,1),(1,0),(0,-1),(-1,0)]
@@ -10,7 +10,7 @@ def vizinhos(pos, mapa):
     for dx, dy in direcoes:
         nx, ny = x+dx, y+dy
         if 0 <= nx < linhas and 0 <= ny < colunas:
-            if custo_terreno(mapa[nx, ny]) < float('inf'):
+            if mapa[nx, ny] == '⬜' or (objetivo is not None and (nx, ny) == objetivo):
                 candidatos.append((nx, ny))
     return candidatos
 
@@ -30,7 +30,7 @@ def busca_a_estrela(inicio, objetivo, mapa, usar_fuzzy=True):
             caminho.append(inicio)
             return list(reversed(caminho)), explorados, gscore
         explorados.add(atual)
-        for nb in vizinhos(atual, mapa):
+        for nb in vizinhos(atual, mapa, objetivo):
             custo_base = custo_terreno(mapa[nb])
             dist = heuristica_manhattan(nb, objetivo)
             mult, peso_h = (1.0, 1.0)
@@ -59,7 +59,7 @@ def busca_gulosa(inicio, objetivo, mapa):
             caminho.append(inicio)
             return list(reversed(caminho)), explorados
         explorados.add(atual)
-        for nb in vizinhos(atual, mapa):
+        for nb in vizinhos(atual, mapa, objetivo):
             if nb in visitados: continue
             visitados.add(nb)
             heapq.heappush(abertos, (heuristica_manhattan(nb, objetivo), nb))
