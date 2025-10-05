@@ -27,4 +27,6 @@ def comparar_buscas(inicio_label='R1', objetivo_label='C2'):
     print("\n")
 
 if __name__ == "__main__":
-    comparar_buscas('R1', 'C2')
+    comparar_buscas('R1', 'C7')
+
+
