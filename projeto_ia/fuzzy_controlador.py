@@ -1,7 +1,7 @@
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
-from util import custo_terreno
+from .util import custo_terreno, custo_efetivo
 import os
 import matplotlib
 matplotlib.use('Agg')
@@ -53,8 +53,12 @@ sistema_fuzzy = ctrl.ControlSystem(regras)
 simulador_fuzzy = ctrl.ControlSystemSimulation(sistema_fuzzy)
 
 
-def avaliar_celula_fuzzy(celula, dist_objetivo):
-    base = custo_terreno(celula)
+def avaliar_celula_fuzzy(celula, dist_objetivo, pos=None, mapa=None):
+    # Usa custo efetivo se posição e mapa forem fornecidos, senão recai no custo da célula
+    if pos is not None and mapa is not None:
+        base = custo_efetivo(pos, mapa)
+    else:
+        base = custo_terreno(celula)
     dificuldade_valor = (min(base, 5.0) - 0.5) / (5.0 - 0.5) * 10.0
     dist_norm = min(dist_objetivo, 100)
     simulador_fuzzy.input['dificuldade'] = dificuldade_valor
