@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from .mapa import mapa
+from mapa import mapa
 
 CUSTOS_TERRENO = {
     "🟩": 1.0, "🌲": 2.0, "🟧": 2.5, "🟫": 4.0, "🌋": 5.0,

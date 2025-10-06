@@ -1,7 +1,7 @@
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
-from .util import custo_terreno
+from util import custo_terreno
 import os
 import matplotlib
 matplotlib.use('Agg')
@@ -28,12 +28,12 @@ distancia['longe'] = fuzz.trimf(distancia.universe, [50, 100, 100])
 
 multiplicador_custo['baixo'] = fuzz.trimf(multiplicador_custo.universe, [0.5, 0.5, 1.0])
 multiplicador_custo['médio'] = fuzz.trimf(multiplicador_custo.universe, [0.9, 1.4, 1.9])
-multiplicador_custo['alto'] = fuzz.trimf(multiplicador_custo.universe, [1.6, 2.5, 3.0])
+multiplicador_custo['alto'] = fuzz.trapmf(multiplicador_custo.universe, [1.6, 2.5, 3.0, 3.0])
 
 
 peso_heuristica['baixo'] = fuzz.trimf(peso_heuristica.universe, [0.1, 0.1, 0.6])
 peso_heuristica['médio'] = fuzz.trimf(peso_heuristica.universe, [0.4, 0.9, 1.4])
-peso_heuristica['alto'] = fuzz.trimf(peso_heuristica.universe, [1.0, 1.6, 2.0])
+peso_heuristica['alto'] = fuzz.trapmf(peso_heuristica.universe, [1.0, 1.6, 2.0, 2.0])
 
 
 regras = [
