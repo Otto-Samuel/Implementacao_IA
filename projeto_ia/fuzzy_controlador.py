@@ -1,7 +1,7 @@
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
-from util import custo_terreno
+from .util import custo_terreno
 import os
 import matplotlib
 matplotlib.use('Agg')

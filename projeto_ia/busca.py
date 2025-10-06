@@ -1,6 +1,6 @@
 import heapq
-from util import custo_terreno, heuristica_manhattan
-from fuzzy_controlador import avaliar_celula_fuzzy
+from .util import custo_terreno, heuristica_manhattan
+from .fuzzy_controlador import avaliar_celula_fuzzy
 
 def vizinhos(pos, mapa, objetivo=None):
     linhas, colunas = mapa.shape

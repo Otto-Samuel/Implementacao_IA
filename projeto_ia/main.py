@@ -1,7 +1,7 @@
-from mapa import mapa, posicoes
-from busca import busca_a_estrela, busca_gulosa
-from util import imprimir_mapa
-from fuzzy_controlador import plot_membership_functions, plot_surface_3d
+from .mapa import mapa, posicoes
+from .busca import busca_a_estrela, busca_gulosa
+from .util import imprimir_mapa
+from .fuzzy_controlador import plot_membership_functions, plot_surface_3d
 import argparse
 import os
 
