@@ -177,6 +177,7 @@ pip install numpy matplotlib networkx scikit-fuzzy
 └── requirements.txt         # Dependências do projeto
 ```
 
+
 ---
 
 ## 🧭 Conclusão
