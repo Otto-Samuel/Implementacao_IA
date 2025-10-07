@@ -10,7 +10,6 @@ def vizinhos(pos, mapa, objetivo=None):
     for dx, dy in direcoes:
         nx, ny = x+dx, y+dy
         if 0 <= nx < linhas and 0 <= ny < colunas:
-            # Restrito a caminhar apenas em quadrados brancos; objetivo é exceção
             if mapa[nx, ny] == '⬜' or (objetivo is not None and (nx, ny) == objetivo):
                 candidatos.append((nx, ny))
     return candidatos

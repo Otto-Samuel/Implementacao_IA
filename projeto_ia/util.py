@@ -11,19 +11,17 @@ CUSTOS_TERRENO = {
 def custo_terreno(celula: str) -> float:
     return CUSTOS_TERRENO.get(celula, 3.0)
 
-# Penalidades de influência por terrenos adjacentes
 INFLUENCIA_ADJACENTE = {
-    "🟨": 0.3,   # areia influencia equilíbrio
-    "🌲": 0.2,   # árvores, galhos atrapalham
-    "🟫": 0.5,   # rocha vulcânica irregular
-    "🌋": 1.0,   # vulcão muito arriscado
-    "🏔️ ": 0.5, # montanhoso próximo dificulta
-    "🌵": 0.4,   # cactos, terreno árido
+    "🟨": 0.3,
+    "🌲": 0.2,
+    "🟫": 0.5,
+    "🌋": 1.0,
+    "🏔️ ": 0.5,
+    "🌵": 0.4,
     "🚥":0.3,
     "🚦":0.3,
     "🥚":0.2,
     "🧓":0.1,
-    
 }
 
 def custo_efetivo(pos, mapa) -> float:
