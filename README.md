@@ -100,7 +100,7 @@ Abaixo estão as funções de pertinência e superfícies de inferência utiliza
 
 O agente realiza entregas em um **mapa representativo** contendo caminhos com pesos variáveis.  
 <div align="center">
-  <img src="mapadomundo.png" width="750px" alt="Mapa de simulação">
+  <img src="https://github.com/Otto-Samuel/Implementacao_IA/blob/main/mapadomundo.png" width="750px" alt="Mapa de simulação">
 </div>
 
 ---

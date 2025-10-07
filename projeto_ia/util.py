@@ -33,7 +33,7 @@ INFLUENCIA_ADJACENTE = {
     "🚦":0.3,
     "🥚":0.2,
     "🧓":0.1,
-    "🚔":0.8
+    "🚔":0.8     # blitz 
 }
 
 def custo_efetivo(pos, mapa) -> float:
@@ -52,16 +52,18 @@ def custo_efetivo(pos, mapa) -> float:
         return base
 
     penalidade = 0.0
+    # Percorre os 8 vizinhos (incluindo diagonais)
     for dx in (-1, 0, 1):
         for dy in (-1, 0, 1):
-            if dx == 0 and dy == 0:
+            if dx == 0 and dy == 0: # ignora a celula
                 continue
             nx, ny = x + dx, y + dy
+            # Verifica se o vizinho está dentro dos limites do mapa
             if 0 <= nx < linhas and 0 <= ny < colunas:
                 cel = mapa[nx, ny]
                 penalidade += INFLUENCIA_ADJACENTE.get(cel, 0.0)
 
-    # Opcional: amortecer penalidade para não explodir
+    # Reduz metade da penalidade total para suavizar o efeito
     penalidade *= 0.5
 
     return base + penalidade

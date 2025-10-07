@@ -43,7 +43,7 @@ def busca_a_estrela(inicio, objetivo, mapa, usar_fuzzy=True):
         for nb in vizinhos(atual, mapa, objetivo):
             custo_base = custo_efetivo(nb, mapa)
             dist = heuristica_manhattan(nb, objetivo)
-            mult, peso_h = (1.0, 1.0)
+            mult, peso_h = (1.0, 1.0)  # valores padrão
             # se fuzzy estiver ativo: ajusta o peso e a heuristica
             if usar_fuzzy:
                 mult, peso_h = avaliar_celula_fuzzy(mapa[nb], dist, pos=nb, mapa=mapa)
@@ -58,7 +58,7 @@ def busca_a_estrela(inicio, objetivo, mapa, usar_fuzzy=True):
     return None, explorados, gscore # se nao for encontrado
 
 def busca_gulosa(inicio, objetivo, mapa):
-    def prioridade(pos):
+    def prioridade(pos): # a prioridade da gulosa é a heuristica que é a distancia entre o prin e o Obj
         h = heuristica_manhattan(pos, objetivo)
         c = custo_efetivo(pos, mapa)
         return h + 0.6 * c  #! aumenta a influência do custo efetivo
@@ -66,7 +66,7 @@ def busca_gulosa(inicio, objetivo, mapa):
     abertos = [(prioridade(inicio), custo_efetivo(inicio, mapa), inicio)]
     veio_de = {}
     explorados = set()
-    visitados = set([inicio])
+    visitados = set([inicio]) # evita reprocessar nós
     while abertos:
         _, _, atual = heapq.heappop(abertos)
         if atual == objetivo:
@@ -81,6 +81,6 @@ def busca_gulosa(inicio, objetivo, mapa):
             if nb in visitados: continue
             visitados.add(nb)
             #* Usa tupla (prioridade, custo, pos) para desempate a favor de menor custo
-            heapq.heappush(abertos, (prioridade(nb), custo_efetivo(nb, mapa), nb))
+            heapq.heappush(abertos, (prioridade(nb), custo_efetivo(nb, mapa), nb)) # -> tupla de prioridades
             veio_de[nb] = atual
     return None, explorados

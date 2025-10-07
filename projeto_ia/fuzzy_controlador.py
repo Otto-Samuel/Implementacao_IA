@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D 
 
 
-# Entradas: dificuldade (derivada do custo efetivo) e distância ao objetivo
+# dificuldade (baseada no custo do terreno) e distância ao objetivo
 dificuldade = ctrl.Antecedent(np.arange(0, 11, 1), 'dificuldade')
 distancia = ctrl.Antecedent(np.arange(0, 101, 1), 'distancia')
 
@@ -56,21 +56,27 @@ simulador_fuzzy = ctrl.ControlSystemSimulation(sistema_fuzzy)
 
 
 def avaliar_celula_fuzzy(celula, dist_objetivo, pos=None, mapa=None):
-    # Usa custo efetivo se posição e mapa forem fornecidos, senão recai no custo da célula
+     # Se posição e mapa forem fornecidos, usa o custo efetivo real
     if pos is not None and mapa is not None:
         base = custo_efetivo(pos, mapa)
     else:
         base = custo_terreno(celula)
+    
+    # Normaliza o custo
     dificuldade_valor = (min(base, 5.0) - 0.5) / (5.0 - 0.5) * 10.0
+    # Limita a distancia 
     dist_norm = min(dist_objetivo, 100)
+    # entradas do sistema fuzzy
     simulador_fuzzy.input['dificuldade'] = dificuldade_valor
     simulador_fuzzy.input['distancia'] = dist_norm
     simulador_fuzzy.compute()
+
+    # Retorna as saídas calculadas
     return simulador_fuzzy.output['multiplicador_custo'], simulador_fuzzy.output['peso_heuristica']
 
 
 def plot_membership_functions(output_path_prefix="docs/fuzzy"):
-    """Salva os gráficos das funções de pertinência em arquivos PNG (sem .view())."""
+    """Salva os gráficos das funções de pertinência em arquivos PNG """
     outdir = os.path.dirname(output_path_prefix) or "."
     os.makedirs(outdir, exist_ok=True)
 

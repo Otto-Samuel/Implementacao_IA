@@ -16,13 +16,14 @@ def comparar_buscas(inicio_label='R1', objetivo_label='C2'):
 
     print("=== BUSCA A* SEM FUZZY ===")
     caminho_a, explorados_a, g_a = busca_a_estrela(inicio, objetivo, mapa, usar_fuzzy=False)
-    custo_a = g_a.get(objetivo, float('inf'))
+    custo_a = g_a.get(objetivo, float('inf')) # Obtém o custo total do caminho final
     print(f"Custo total: {custo_a:.2f}, Nós explorados: {len(explorados_a)}")
     imprimir_mapa(caminho_a, explorados_a, posicoes)
     print("\n")
 
     print("=== BUSCA A* COM FUZZY ===")
     caminho_f, explorados_f, g_f = busca_a_estrela(inicio, objetivo, mapa, usar_fuzzy=True)
+    # Obtém o custo total com ajustes fuzzy (multiplicador e peso heurístico)
     custo_f = g_f.get(objetivo, float('inf'))
     print(f"Custo total: {custo_f:.2f}, Nós explorados: {len(explorados_f)}")
     imprimir_mapa(caminho_f, explorados_f, posicoes)
@@ -35,6 +36,7 @@ def comparar_buscas(inicio_label='R1', objetivo_label='C2'):
     print("\n")
 
 if __name__ == "__main__":
+     # Configuração do argparse para receber parâmetros pelo terminal
     parser = argparse.ArgumentParser(description="Comparar algoritmos de busca no mapa")
     parser.add_argument("inicio", nargs='?', default='R1', help="Rótulo de início (ex.: R1)")
     parser.add_argument("objetivo", nargs='?', default='C2', help="Rótulo de objetivo (ex.: C1..C5)")
@@ -42,10 +44,11 @@ if __name__ == "__main__":
     parser.add_argument("--plot", action="store_true", help="Gerar gráficos das funções de pertinência e superfície 3D")
     parser.add_argument("--outdir", default=None, help="Diretório de saída para gráficos (padrão: pasta deste arquivo)")
     args = parser.parse_args()
-
+    # Extrai os rótulos de início e fim
     inicio_label = args.inicio
     objetivo_label = args.objetivo
 
+    # Busca as coordenadas reais no dicionário de posições
     inicio = posicoes.get(inicio_label)
     objetivo = posicoes.get(objetivo_label)
     if inicio is None or objetivo is None:
@@ -73,9 +76,12 @@ if __name__ == "__main__":
                 imprimir_mapa(caminho, explorados, posicoes)
 
     if args.plot:
+         # Define o diretório de saída 
         base_outdir = args.outdir or os.path.dirname(__file__)
         os.makedirs(base_outdir, exist_ok=True)
+
         prefix = os.path.join(base_outdir, "fuzzy")
+        # gráficos das funções de pertinência
         plot_membership_functions(prefix)
         surface_path = os.path.join(base_outdir, "fuzzy_surface.png")
         plot_surface_3d(surface_path)
