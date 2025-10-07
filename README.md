@@ -5,8 +5,7 @@ python -m projeto_ia.main R1 CC --alg all --plot
 ## 👥 Autores
 <table>
   <tr>
-     <td align="center">
-       <br>
+    <td align="center">
        <a href="https://github.com/Otto-Samuel">
          <img src="https://avatars.githubusercontent.com/u/162514493?v=4" style="border-radius: 50%" width="100px;" alt="Otto Samuel"/>
          <br />
