@@ -1,7 +1,7 @@
 from .mapa import mapa, posicoes
 from .busca import busca_a_estrela, busca_gulosa
 from .util import imprimir_mapa
-from .fuzzy_controlador import plot_membership_functions, plot_surface_3d
+from .fuzzy_controlador import plot_membership_functions, plot_surface_3d, plot_surface_3d_heuristica
 import argparse
 import os
 
@@ -85,3 +85,5 @@ if __name__ == "__main__":
         plot_membership_functions(prefix)
         surface_path = os.path.join(base_outdir, "fuzzy_surface.png")
         plot_surface_3d(surface_path)
+        surface_h_path = os.path.join(base_outdir, "fuzzy_surface_heuristica.png")
+        plot_surface_3d_heuristica(surface_h_path)

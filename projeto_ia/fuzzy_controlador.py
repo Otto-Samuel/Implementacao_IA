@@ -120,7 +120,46 @@ def plot_surface_3d(output_path="docs/fuzzy_surface.png", resolution=41):
     ax.plot_surface(X, Y, Z, cmap='viridis')
     ax.set_xlabel('dificuldade')
     ax.set_ylabel('distancia')
-    ax.set_zlabel('multiplicador_custo')
+    ax.zaxis.label.set_rotation(90)
+    ax.set_zlabel('multiplicador_custo', labelpad=18)
+    try:
+        ax.zaxis.set_label_coords(1.02, 0.5)
+    except Exception:
+        pass
     ax.set_title('Superfície Fuzzy')
-    plt.savefig(output_path, bbox_inches='tight')
+    fig.subplots_adjust(left=0.06, right=0.98, bottom=0.06, top=0.95)
+    plt.savefig(output_path, bbox_inches='tight', pad_inches=0.5)
+    plt.close(fig)
+
+
+def plot_surface_3d_heuristica(output_path="docs/fuzzy_surface_heuristica.png", resolution=41):
+    """Gera superfície 3D da saída peso_heuristica em função de dificuldade x distancia."""
+    x = np.linspace(dificuldade.universe.min(), dificuldade.universe.max(), resolution)
+    y = np.linspace(distancia.universe.min(), distancia.universe.max(), resolution)
+    X, Y = np.meshgrid(x, y)
+
+    Z = np.zeros_like(X)
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            simulador_fuzzy.input['dificuldade'] = X[i, j]
+            simulador_fuzzy.input['distancia'] = Y[i, j]
+            simulador_fuzzy.compute()
+            Z[i, j] = simulador_fuzzy.output['peso_heuristica']
+
+    outdir = os.path.dirname(output_path) or "."
+    os.makedirs(outdir, exist_ok=True)
+    fig = plt.figure(figsize=(10,7))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot_surface(X, Y, Z, cmap='magma')
+    ax.set_xlabel('dificuldade')
+    ax.set_ylabel('distancia')
+    ax.zaxis.label.set_rotation(90)
+    ax.set_zlabel('peso_heuristica', labelpad=18)
+    try:
+        ax.zaxis.set_label_coords(1.02, 0.5)
+    except Exception:
+        pass
+    ax.set_title('Superfície Fuzzy - Heurística')
+    fig.subplots_adjust(left=0.06, right=0.98, bottom=0.06, top=0.95)
+    plt.savefig(output_path, bbox_inches='tight', pad_inches=0.5)
     plt.close(fig)

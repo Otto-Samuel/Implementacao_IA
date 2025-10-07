@@ -49,7 +49,7 @@ def busca_a_estrela(inicio, objetivo, mapa, usar_fuzzy=True):
                 mult, peso_h = avaliar_celula_fuzzy(mapa[nb], dist, pos=nb, mapa=mapa)
             novo_g = gscore[atual] + custo_base * mult # calcula novo custo acumulado
             
-            # atualiza se for um caminho melhor ou anda nao explorado
+            # atualiza se for um caminho melhor ou ainda nao explorado
             if nb not in gscore or novo_g < gscore[nb]:
                 veio_de[nb] = atual
                 gscore[nb] = novo_g
@@ -69,7 +69,7 @@ def busca_gulosa(inicio, objetivo, mapa):
     visitados = set([inicio]) # evita reprocessar nós
     while abertos:
         _, _, atual = heapq.heappop(abertos)
-        if atual == objetivo:
+        if atual == objetivo: # verifica se é o objetivo
             caminho = []
             while atual in veio_de:
                 caminho.append(atual)

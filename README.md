@@ -1,8 +1,23 @@
-# 🚀 Sistema de Busca com Lógica Fuzzy — Inteligência Artificial
+# 🛵 Sistema de Busca com Lógica Fuzzy — Inteligência Artificial
+
+### 🗺️ Mapa de Simulação
+
+O agente realiza entregas em um **mapa representativo** contendo caminhos com pesos variáveis.  
+<div align="center">
+  <img src="https://github.com/Otto-Samuel/Implementacao_IA/blob/main/mapadomundo.png" width="750px" alt="Mapa de simulação">
+</div>
+
+<br>
+
+### 💻 Como executar as buscas
+
+>[!NOTE]
+> - trocar o que estiver dentro de colchetes pelo nome da label do destino
+
+```python
+python -m projeto_ia.main R1 [nome da label destinho, ex: CC] --alg all --plot
 ```
-python -m projeto_ia.main R1 CC --alg all --plot
-```
-## 👥 Autores
+### 👥 Autores
 <table>
   <tr>
      <td align="center">
@@ -31,7 +46,7 @@ python -m projeto_ia.main R1 CC --alg all --plot
        <a href="https://github.com/JoaoDario632">
          <img src="https://avatars.githubusercontent.com/u/134674876?v=4" style="border-radius: 50%" width="100px;" alt="ferreira"/>
          <br />
-         <sub><b>João Dário 💻</b></sub>
+         <sub><b>João Dário</b></sub>
        </a>
      </td>
   </tr>
@@ -39,7 +54,7 @@ python -m projeto_ia.main R1 CC --alg all --plot
 
 ---
 
-## 🧠 Descrição do Projeto
+### 🧠 Descrição do Projeto
 Este projeto implementa **buscas inteligentes** (A*, Gulosa e A* Fuzzy) aplicadas a um **sistema de delivery**.  
 O agente deve encontrar a rota ideal levando em conta **distância**, **dificuldade do terreno** e **ajustes heurísticos fuzzy**, buscando equilibrar desempenho e custo total.
 
@@ -47,7 +62,7 @@ O diferencial é o uso de **lógica fuzzy** para adaptar dinamicamente o comport
 
 ---
 
-## ⚙️ Metodologia e Métricas
+### ⚙️ Metodologia e Métricas
 
 O sistema compara os seguintes algoritmos:
 - **A\*** — heurístico admissível, garante caminho ótimo.
@@ -64,7 +79,7 @@ Esses dados permitem avaliar o **trade-off entre custo e eficiência** conforme 
 
 ---
 
-## 📈 Resultados e Visualizações Fuzzy
+### 📈 Resultados e Visualizações Fuzzy
 
 O controlador fuzzy ajusta o comportamento do algoritmo de acordo com **distância** e **dificuldade**.  
 Abaixo estão as funções de pertinência e superfícies de inferência utilizadas no sistema.
@@ -94,18 +109,12 @@ Abaixo estão as funções de pertinência e superfícies de inferência utiliza
   <img src="https://github.com/Otto-Samuel/Implementacao_IA/blob/main/projeto_ia/fuzzy_surface.png" width="550px" alt="Superfície fuzzy 3D">
 </div>
 
----
-
-## 🗺️ Mapa de Simulação
-
-O agente realiza entregas em um **mapa representativo** contendo caminhos com pesos variáveis.  
+### 🔹 Superfície Fuzzy — Interação Distância x Dificuldade x Heuristica
 <div align="center">
-  <img src="https://github.com/Otto-Samuel/Implementacao_IA/blob/main/mapadomundo.png" width="750px" alt="Mapa de simulação">
+  <img src="https://github.com/Otto-Samuel/Implementacao_IA/blob/main/projeto_ia/fuzzy_surface_heuristica.png" width="550px" alt="Superfície fuzzy 3D Heuristica">
 </div>
 
----
-
-## 💻 Como Executar
+<br>
 
 ### ✅ Requisitos
 - **Python 3.8+**
@@ -120,36 +129,8 @@ ou manualmente:
 pip install numpy matplotlib networkx scikit-fuzzy
 ```
 
----
 
-### ▶️ Execução via Terminal
-1. Acesse a pasta do projeto:
-   ```bash
-   cd projeto_ia
-   ```
-2. Execute o programa principal:
-   ```bash
-   python main.py
-   ```
-3. O sistema exibirá opções de busca e permitirá observar os resultados fuzzy.
-
----
-
-### 💡 Execução no VS Code (Passo a Passo)
-
-1. Abra o **VS Code**.  
-2. Vá em **File → Open Folder** e selecione a pasta `projeto_ia`.  
-3. Abra o arquivo **main.py**.  
-4. Configure o interpretador Python (Ctrl + Shift + P → “Python: Select Interpreter”).  
-5. Instale as dependências com:
-   ```bash
-   pip install -r requirements.txt
-   ```
-6. Execute com **F5** ou clique em ▶️ “Run Python File”.
-
----
-
-## 🧩 Estrutura do Projeto
+### 🧩 Estrutura do Projeto
 ```
 📁 IMPLEMENTACAO_IA
 |
@@ -180,9 +161,7 @@ pip install numpy matplotlib networkx scikit-fuzzy
 ```
 
 
----
-
-## 🧭 Conclusão
+### 🧭 Conclusão
 
 A integração entre **buscas heurísticas clássicas** e **lógica fuzzy** demonstra um avanço significativo na adaptação de rotas e decisões.  
 O sistema se mostra eficiente e flexível, ajustando o comportamento da busca conforme o contexto — o que o torna ideal para aplicações como **sistemas de delivery inteligentes**, **robótica móvel** e **planejamento de rotas**.
