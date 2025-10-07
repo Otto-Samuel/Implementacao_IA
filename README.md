@@ -1,5 +1,7 @@
 # 🚀 Sistema de Busca com Lógica Fuzzy — Inteligência Artificial
-
+```
+python -m projeto_ia.main R1 CC --alg all --plot
+```
 ## 👥 Autores
 <table>
   <tr>

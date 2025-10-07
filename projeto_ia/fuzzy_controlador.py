@@ -9,9 +9,11 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D 
 
 
+# Entradas: dificuldade (derivada do custo efetivo) e distância ao objetivo
 dificuldade = ctrl.Antecedent(np.arange(0, 11, 1), 'dificuldade')
 distancia = ctrl.Antecedent(np.arange(0, 101, 1), 'distancia')
 
+# Saídas: multiplicador de custo e peso da heurística no A*
 multiplicador_custo = ctrl.Consequent(np.arange(0.5, 3.1, 0.1), 'multiplicador_custo')
 peso_heuristica = ctrl.Consequent(np.arange(0.1, 2.1, 0.1), 'peso_heuristica')
 

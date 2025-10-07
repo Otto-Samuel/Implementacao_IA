@@ -20,11 +20,12 @@ mapa = np.array([
     ["🟧","🟧","🟧","🟧","🟧","🟧","🟧","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","🟩","⬜","🌴","🌴","🌴","🌴","🌴"],
 ])
 
+#? as posicoes sao adicionados automaticamente 👍
 posicoes = {
 
 }
-
-_labels_interesse = {'R1', 'C1', 'C2', 'C3', 'C4', 'C5','C7','C8','C9','C10','CA','CB'}
+#*     labels com nomes e suas posições
+_labels_interesse = {'R1', 'C1', 'C2', 'C3', 'C4', 'C5','C7','C8','C9','C10','CA','CB','CC'}
 for i, linha in enumerate(mapa):
     for j, celula in enumerate(linha):
         if celula in _labels_interesse:

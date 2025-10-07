@@ -2,6 +2,8 @@ import math
 import numpy as np
 from .mapa import mapa
 
+# Mapeamento de símbolos do mapa para custo base de entrada na célula.
+# Valores maiores representam maior dificuldade/risco; infinito = intransponível.
 CUSTOS_TERRENO = {
     "🟩": 1.0, "🌲": 2.0, "🟧": 2.5, "🟫": 4.0, "🌋": 5.0,
     "⬜": 0.9, "🟨": 0.5, "🌊": math.inf, "🟦": math.inf, "🏝️ ": math.inf,
@@ -9,28 +11,37 @@ CUSTOS_TERRENO = {
 }
 
 def custo_terreno(celula: str) -> float:
+    """Retorna o custo base associado ao símbolo da célula.
+
+    Caso o símbolo não esteja mapeado, assume custo intermediário (3.0)
+    para manter o algoritmo robusto a novos ícones.
+    """
     return CUSTOS_TERRENO.get(celula, 3.0)
 
 # Penalidades de influência por terrenos adjacentes
+# Penalidades adicionais aplicadas ao custo do quadrado branco (⬜)
+# quando há vizinhos 8-conexos com esses símbolos. Representa o efeito
+# de terrenos difíceis ao redor (areia, árvores, vulcão etc.) no trajeto.
 INFLUENCIA_ADJACENTE = {
-    "🟨": 0.3,   # areia influencia equilíbrio
-    "🌲": 0.2,   # árvores, galhos atrapalham
-    "🟫": 0.5,   # rocha vulcânica irregular
-    "🌋": 1.0,   # vulcão muito arriscado
-    "🏔️ ": 0.5, # montanhoso próximo dificulta
-    "🌵": 0.4,   # cactos, terreno árido
-    "🚥":0.3,
+    "🟨": 0.3,   #? areia influencia equilíbrio
+    "🌲": 0.2,   #? árvores, galhos atrapalham
+    "🟫": 0.5,   #? rocha vulcânica irregular
+    "🌋": 1.0,   #? vulcão muito arriscado
+    "🏔️ ": 0.5, #? montanhoso próximo dificulta
+    "🌵": 0.4,   #? cactos, terreno árido
+    "🚥":0.3,    #? semaforos,
     "🚦":0.3,
     "🥚":0.2,
     "🧓":0.1,
-    
+    "🚔":0.8
 }
 
 def custo_efetivo(pos, mapa) -> float:
-    """Retorna o custo da célula considerando influência dos vizinhos.
+    """Custo efetivo da célula, somando custo base e influência de vizinhos.
 
-    A influência considera vizinhança 8-conexa (inclui diagonais) e soma
-    pequenas penalidades por cada terreno "difícil" ao redor.
+    - Mantém infinito para células intransponíveis
+    - Considera vizinhança 8-conexa (inclui diagonais)
+    - Aplica amortecimento para evitar penalidades excessivas
     """
     x, y = pos
     linhas, colunas = mapa.shape

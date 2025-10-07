@@ -6,6 +6,11 @@ import argparse
 import os
 
 def comparar_buscas(inicio_label='R1', objetivo_label='C2'):
+    """Executa A* (com/sem fuzzy) e Gulosa e imprime métricas e mapa.
+
+    Facilita a demonstração comparando custo total e nós explorados,
+    além de exibir o caminho encontrado em cada caso.
+    """
     inicio = posicoes[inicio_label]
     objetivo = posicoes[objetivo_label]
 
